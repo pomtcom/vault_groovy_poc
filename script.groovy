@@ -1,4 +1,6 @@
+package com.javacodegeeks.example.groovy.json;
 import groovy.json.JsonSlurper
+
 print 'vault groovy poc is starting'
 
 

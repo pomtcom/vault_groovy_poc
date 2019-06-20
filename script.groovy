@@ -24,8 +24,17 @@ node {
         println(post.getInputStream().getText());
         // JSONObject responseJson = JSON.parse(post.getInputStream().getText());
         // def secret_id = responseJson['data']['secret_id'];
-        def slurped = new JsonSlurper().parseText(post.getInputStream().getText())
-        print('secret_id is ' + secret_id['data']);
+        print('before JsonSlurper');
+        def slurped = new JsonSlurper().parseText(post.getInputStream().getText());
+        print('after JsonSlurper');
+
+        print(slurped.data);
+        print('after print .data');
+
+        print(slurped.data['secret_id']);
+        print('after print secret_id');
+
+        // print('secret_id is ' + secret_id['data']);
     }else{
         println('http error response code ' + post.getResponseCode());
     }

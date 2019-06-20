@@ -21,11 +21,11 @@ node {
     post.getOutputStream().write(message.getBytes("UTF-8"));
     // println(postRC);
     if(post.getResponseCode().equals(200)) {
-        println(post.getInputStream().getText());
+        def jsonResponse = post.getInputStream().getText() ;
         // JSONObject responseJson = JSON.parse(post.getInputStream().getText());
         // def secret_id = responseJson['data']['secret_id'];
         print('before JsonSlurper');
-        def slurped = new JsonSlurper().parseText(post.getInputStream().getText());
+        def slurped = new JsonSlurper().parseText(jsonResponse);
         print('after JsonSlurper');
 
         print(slurped.data);
@@ -33,6 +33,9 @@ node {
 
         print(slurped.data['secret_id']);
         print('after print secret_id');
+
+        print(slurped['data']['secret_id']);
+        print('after access like nodejs');
 
         // print('secret_id is ' + secret_id['data']);
     }else{

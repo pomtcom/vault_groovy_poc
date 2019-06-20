@@ -2,6 +2,7 @@ import groovy.json.JsonSlurper
 
 print 'vault groovy poc is starting'
 def role_id = params.role_id
+def secret_id
 
 node {
 
@@ -25,7 +26,7 @@ node {
             def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
             
             // to add try catch for accessing json
-            def secret_id = jsonSlurped['data']['secret_id'];
+            secret_id = jsonSlurped['data']['secret_id'];
             print('secret_id is ' + secret_id)
 
         }else{

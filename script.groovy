@@ -35,6 +35,7 @@ node {
 
     stage('generate role_token'){
         print 'generating role_token'
+        print 'secret_id is ' + secret_id
         def post = new URL("http://10.198.105.221:8200/v1/auth/approle/login").openConnection();
         def message = '{"role_id": "' + role_id + '",' + '"secret_id": "' + secret_id + '"}';
         post.setRequestMethod("POST");

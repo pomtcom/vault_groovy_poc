@@ -3,6 +3,7 @@ import groovy.json.JsonSlurper
 print 'vault groovy poc is starting'
 def role_id = params.role_id
 def secret_id
+def role_token
 
 node {
 
@@ -41,7 +42,17 @@ node {
         def message = '{"role_id": "' + role_id + '",' + '"secret_id": "' + secret_id + '"}';
         post.setRequestMethod("POST");
         post.setDoOutput(true);
-        print('message to send is ' + message);
+        post.getOutputStream().write(message.getBytes("UTF-8"));
+        if(post.getResponseCode().equals(200)) {
+            def jsonResponse = post.getInputStream().getText() ;
+            def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
+            
+            // to add try catch for accessing json
+            role_token = jsonSlurped['auth']['client_token'];
+            print('role_token is ' + role_token);
+        }
+
+        // print('message to send is ' + message);
     }
 
     

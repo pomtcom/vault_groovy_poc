@@ -1,0 +1,1 @@
+path "secret/vault_poc_path" {capabilities = ["read", "list"]}

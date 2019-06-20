@@ -1,3 +1,4 @@
+import groovy.json.JsonSlurper
 print 'vault groovy poc is starting'
 
 

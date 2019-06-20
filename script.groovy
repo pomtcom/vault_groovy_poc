@@ -54,6 +54,21 @@ node {
 
         // print('message to send is ' + message);
     }
+    stage('get secret'){
+        print 'getting secrt'
+        def get = new URL("http://10.198.105.221:8200/v1/secret_poc/vault_poc_path").openConnection();
+        get.setRequestProperty("X-Vault-Token", role_token)
+        def getRC = get.getResponseCode();
+        println(getRC);
+        if(getRC.equals(200)) {
+            def jsonResponse = get.getInputStream().getText() ;
+            def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
+            
+            def poc_password = jsonSlurped['data']['poc_password'];
+            print('poc_password is ' + poc_password) ;
+        }
+
+    }
 
     
 }

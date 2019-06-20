@@ -17,10 +17,14 @@ node {
     post.setDoOutput(true)
     post.setRequestProperty("X-Vault-Token", "s.3aVA6ckaOumc6N7WHTZHZ34a")
     post.getOutputStream().write(message.getBytes("UTF-8"));
-    def postRC = post.getResponseCode();
-    println(postRC);
-    if(postRC.equals(200)) {
+    // println(postRC);
+    if(post.getResponseCode().equals(200)) {
         println(post.getInputStream().getText());
+        JSONObject responseJson = JSON.parse(post.getInputStream().getText());
+        def secret_id = responseJson['data']['secret_id'];
+        print('secret_id is ' + secret_id);
+    }else{
+        println('http error response code ' + post.getResponseCode());
     }
 
 

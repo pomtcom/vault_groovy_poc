@@ -1,4 +1,3 @@
-package com.javacodegeeks.example.groovy.json;
 import groovy.json.JsonSlurper
 
 print 'vault groovy poc is starting'
@@ -24,8 +23,11 @@ node {
     if(post.getResponseCode().equals(200)) {
         println(post.getInputStream().getText());
         JSONObject responseJson = JSON.parse(post.getInputStream().getText());
-        def secret_id = responseJson['data']['secret_id'];
-        print('secret_id is ' + secret_id);
+        // def secret_id = responseJson['data']['secret_id'];
+        def slurped = new JsonSlurper().parseText(json)
+        
+
+        print('secret_id is ' + secret_id['data']);
     }else{
         println('http error response code ' + post.getResponseCode());
     }

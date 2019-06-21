@@ -9,7 +9,7 @@ node {
 
     stage('get role_id') {
         print 'getting role_id'
-        print 'role id is ' + role_id
+        // print 'role id is ' + role_id
     }
 
     stage('create secret_id'){
@@ -28,7 +28,7 @@ node {
             
             // to add try catch for accessing json
             secret_id = jsonSlurped['data']['secret_id'];
-            print('secret_id is ' + secret_id)
+            // print('secret_id is ' + secret_id)
 
         }else{
             println('http error response code ' + post.getResponseCode());
@@ -37,7 +37,6 @@ node {
 
     stage('generate role_token'){
         print 'generating role_token'
-        print 'secret_id is ' + secret_id
         def post = new URL("http://10.198.105.221:8200/v1/auth/approle/login").openConnection();
         def message = '{"role_id": "' + role_id + '",' + '"secret_id": "' + secret_id + '"}';
         post.setRequestMethod("POST");
@@ -49,7 +48,7 @@ node {
             
             // to add try catch for accessing json
             role_token = jsonSlurped['auth']['client_token'];
-            print('role_token is ' + role_token);
+            // print('role_token is ' + role_token);
         }
 
         // print('message to send is ' + message);

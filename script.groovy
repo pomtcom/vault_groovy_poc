@@ -64,8 +64,8 @@ node {
             def jsonResponse = get.getInputStream().getText() ;
             def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
             
-            def poc_password = jsonSlurped['data']['poc_password'];
-            print('poc_password is ' + poc_password) ;
+            def poc_password = jsonSlurped['data']['MySQL_PASSWORD'];
+            print('MySQL_PASSWORD is ' + poc_password) ;
         }
 
     }

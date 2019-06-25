@@ -15,23 +15,30 @@ node {
     stage('create secret_id'){
         print 'creating secret_id'
         // POST
-        def post = new URL("http://10.198.105.221:8200/v1/auth/approle/role/vault_poc_role/secret-id").openConnection();
-        def message = '{}'
-        post.setRequestMethod("POST")
-        post.setDoOutput(true)
-        post.setRequestProperty("X-Vault-Token", "s.3aVA6ckaOumc6N7WHTZHZ34a")
-        post.getOutputStream().write(message.getBytes("UTF-8"));
-        // println(postRC);
-        if(post.getResponseCode().equals(200)) {
-            def jsonResponse = post.getInputStream().getText() ;
-            def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
-            
-            // to add try catch for accessing json
-            secret_id = jsonSlurped['data']['secret_id'];
-            // print('secret_id is ' + secret_id)
 
-        }else{
-            println('http error response code ' + post.getResponseCode());
+
+        withCredentials([string(credentialsId: 'VaultToken', variable: 'vaultToken')]) {
+            echo "My password is '${vaultToken}'!"
+
+            def post = new URL("http://10.198.105.221:8200/v1/auth/approle/role/vault_poc_role/secret-id").openConnection();
+            def message = '{}'
+            post.setRequestMethod("POST")
+            post.setDoOutput(true)
+
+            post.setRequestProperty("X-Vault-Token", vaultToken)
+            post.getOutputStream().write(message.getBytes("UTF-8"));
+            // println(postRC);
+            if(post.getResponseCode().equals(200)) {
+                def jsonResponse = post.getInputStream().getText() ;
+                def jsonSlurped = new JsonSlurper().parseText(jsonResponse);
+            
+                // to add try catch for accessing json
+                secret_id = jsonSlurped['data']['secret_id'];
+                // print('secret_id is ' + secret_id)
+
+            }else{
+                println('http error response code ' + post.getResponseCode());
+            }
         }
     }
 

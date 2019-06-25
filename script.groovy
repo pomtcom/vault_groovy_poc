@@ -76,5 +76,11 @@ node {
 
     }
 
+    stage('Test object library'){
+        print 'Test object library';
+        def myUtils = new org.demo.buildUtils()
+        myUtils.echoHelloWorld(repo)
+    }
+
     
 }
